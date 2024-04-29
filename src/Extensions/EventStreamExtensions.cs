@@ -18,7 +18,7 @@ public static class EventStreamExtensions
     /// <summary>
     /// Resolves the full event stream from all sources organized by date, advancing all listening <see cref="ISharedEventStreamHandler{TContentPointer,TEventStreamSource,TEventStreamEntry,TListeningHandlers}.ListeningEventStreamHandlers"/> on the given <paramref name="eventStreamHandler"/> using data from all available <see cref="ISources{TEventStreamSource}.Sources"/>.
     /// </summary>
-    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceFullEventStreamAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceFullEventStreamAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
         where TEventStreamSource : EventStream<TContentPointer>
         where TEventStreamEntry : EventStreamEntry<TContentPointer>
     {
