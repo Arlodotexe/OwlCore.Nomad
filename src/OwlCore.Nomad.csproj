@@ -14,13 +14,18 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.0.0</Version>
+		<Version>0.1.0</Version>
 		<Product>OwlCore</Product>
 		<Description></Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.1.0 ---
+[New]
+Added EventStreamExtensions.AdvanceFullEventStreamAsync. This helper resolves and advances all listeners on a shared event stream handler.
+Added EventStreamExtensions.ResolveEventStreamsAsync. This helper resolves all entries in all sources for an event stream handler into instances of EventStreamEntry{TContentPointer}.
+
 --- 0.0.0 ---
 [New]
 Initial release of OwlCore.Nomad.
@@ -57,6 +62,7 @@ Initial release of OwlCore.Nomad.
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 		<PackageReference Include="OwlCore.ComponentModel" Version="0.8.0" />
+		<PackageReference Include="OwlCore.Extensions" Version="0.8.0" />
 		<PackageReference Include="PolySharp" Version="1.14.1">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
