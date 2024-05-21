@@ -14,13 +14,18 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.1.2</Version>
+		<Version>0.2.0</Version>
 		<Product>OwlCore</Product>
 		<Description></Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.2.0 ---
+[Breaking changes]
+Updated namespaces to OwlCore.Nomad for all types.
+Removed LinkedEventStreamHandler. This pattern is not recommended for aggregated event sources.
+
 --- 0.1.2 ---
 [Fixes]
 Re-added missing `this` keyword to first parameter of EventStreamExtensions.AdvanceFullEventStreamAsync.

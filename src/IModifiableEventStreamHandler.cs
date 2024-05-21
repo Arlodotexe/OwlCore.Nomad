@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace OwlCore.ComponentModel.Nomad;
+namespace OwlCore.Nomad;
 
 /// <summary>
 /// Represents a storable item that can be updated via an event stream.

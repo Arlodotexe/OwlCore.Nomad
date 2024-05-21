@@ -1,6 +1,7 @@
 using System;
+using OwlCore.ComponentModel;
 
-namespace OwlCore.ComponentModel.Nomad;
+namespace OwlCore.Nomad;
 
 /// <summary>
 /// Represents the data for a single entry in an event stream.

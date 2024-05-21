@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace OwlCore.ComponentModel.Nomad;
+namespace OwlCore.Nomad;
 
 /// <summary>
 /// Represents an object that can supports seeking via a generic data type.

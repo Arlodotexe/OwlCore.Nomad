@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using OwlCore.ComponentModel;
 
-namespace OwlCore.ComponentModel.Nomad;
+namespace OwlCore.Nomad;
 
 /// <summary>
 /// Represents an object that supports seeking via a consolidated multi-source event stream.

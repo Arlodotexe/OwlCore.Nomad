@@ -1,4 +1,4 @@
-﻿namespace OwlCore.ComponentModel.Nomad;
+﻿namespace OwlCore.Nomad;
 
 /// <summary>
 /// A shared event stream handler backed by content on Ipfs.
