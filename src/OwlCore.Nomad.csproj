@@ -14,13 +14,20 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.2.0</Version>
+		<Version>0.3.0</Version>
 		<Product>OwlCore</Product>
 		<Description></Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.3.0 ---
+[Breaking]
+Renamed AdvanceFullEventStreamAsync to AdvanceSharedEventStreamAsync.
+
+[New]
+Added EventStreamExtensions.AdvanceEventStreamToAtLeastAsync to fast forward an object and apply all event entries to at least a given date.
+
 --- 0.2.0 ---
 [Breaking changes]
 Updated namespaces to OwlCore.Nomad for all types.

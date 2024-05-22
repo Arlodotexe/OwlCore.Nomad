@@ -1,4 +1,5 @@
-﻿using OwlCore.ComponentModel;
+﻿using CommunityToolkit.Diagnostics;
+using OwlCore.ComponentModel;
 using OwlCore.Extensions;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ public static class EventStreamExtensions
     /// <summary>
     /// Resolves the full event stream from all sources organized by date, advancing all listening <see cref="ISharedEventStreamHandler{TContentPointer,TEventStreamSource,TEventStreamEntry,TListeningHandlers}.ListeningEventStreamHandlers"/> on the given <paramref name="eventStreamHandler"/> using data from all available <see cref="ISources{TEventStreamSource}.Sources"/>.
     /// </summary>
-    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceFullEventStreamAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceSharedEventStreamAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
         where TEventStreamSource : EventStream<TContentPointer>
         where TEventStreamEntry : EventStreamEntry<TContentPointer>
     {
@@ -33,6 +34,28 @@ public static class EventStreamExtensions
                 .Where(x => x.Id == eventEntry.Id)
                 .InParallel(x => x.TryAdvanceEventStreamAsync(eventEntry, cancellationToken));
 
+            yield return eventEntry;
+        }
+    }
+
+    /// <summary>
+    /// Resolves the full event stream from all <see cref="ISources{T}.Sources"/> organized by date and advances the <paramref name="eventStreamHandler"/> to the given <paramref name="maxDateTimeUtc"/>.
+    /// </summary>
+    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceEventStreamToAtLeastAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, DateTime maxDateTimeUtc, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
+        where TEventStreamSource : EventStream<TContentPointer>
+        where TEventStreamEntry : EventStreamEntry<TContentPointer>
+    {
+        // Resolve all events in stream
+        var resolvedEventStreamEntries = await eventStreamHandler.Sources.ResolveEventStreamsAsync(contentPointerToStreamEntryAsync, cancellationToken);
+
+        // Playback event stream
+        // Order event entries by oldest first
+        foreach (var eventEntry in resolvedEventStreamEntries
+                     .OrderBy(x => x.TimestampUtc)
+                     .Where(x => (x.TimestampUtc ?? ThrowHelper.ThrowArgumentNullException<DateTime>()) <= maxDateTimeUtc))
+        {
+            // Advance event stream for all listening objects
+            await eventStreamHandler.TryAdvanceEventStreamAsync(eventEntry, cancellationToken);
             yield return eventEntry;
         }
     }
