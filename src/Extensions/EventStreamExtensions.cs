@@ -18,12 +18,12 @@ public static class EventStreamExtensions
     /// <summary>
     /// Resolves the full event stream from all sources organized by date, advancing all listening <see cref="ISharedEventStreamHandler{TContentPointer,TEventStreamSource,TEventStreamEntry,TListeningHandlers}.ListeningEventStreamHandlers"/> on the given <paramref name="eventStreamHandler"/> using data from all available <see cref="ISources{TEventStreamSource}.Sources"/>.
     /// </summary>
-    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceSharedEventStreamAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceSharedEventStreamAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, Func<TContentPointer, CancellationToken, Task<TEventStreamSource>> contentPointerToEventStreamSourceAsync, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
         where TEventStreamSource : EventStream<TContentPointer>
         where TEventStreamEntry : EventStreamEntry<TContentPointer>
     {
         // Resolve all events in stream
-        var resolvedEventStreamEntries = await eventStreamHandler.Sources.ResolveEventStreamsAsync(contentPointerToStreamEntryAsync, cancellationToken);
+        var resolvedEventStreamEntries = await eventStreamHandler.Sources.ResolveEventStreamEntriesAsync(contentPointerToEventStreamSourceAsync, contentPointerToStreamEntryAsync, cancellationToken);
 
         // Playback event stream
         // Order event entries by oldest first
@@ -41,12 +41,12 @@ public static class EventStreamExtensions
     /// <summary>
     /// Resolves the full event stream from all <see cref="ISources{T}.Sources"/> organized by date and advances the <paramref name="eventStreamHandler"/> to the given <paramref name="maxDateTimeUtc"/>.
     /// </summary>
-    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceEventStreamToAtLeastAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, DateTime maxDateTimeUtc, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
+    public static async IAsyncEnumerable<TEventStreamEntry> AdvanceEventStreamToAtLeastAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry> eventStreamHandler, DateTime maxDateTimeUtc, Func<TContentPointer, CancellationToken, Task<TEventStreamSource>> contentPointerToEventStreamSourceAsync, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, [EnumeratorCancellation] CancellationToken cancellationToken)
         where TEventStreamSource : EventStream<TContentPointer>
         where TEventStreamEntry : EventStreamEntry<TContentPointer>
     {
         // Resolve all events in stream
-        var resolvedEventStreamEntries = await eventStreamHandler.Sources.ResolveEventStreamsAsync(contentPointerToStreamEntryAsync, cancellationToken);
+        var resolvedEventStreamEntries = await eventStreamHandler.Sources.ResolveEventStreamEntriesAsync(contentPointerToEventStreamSourceAsync, contentPointerToStreamEntryAsync, cancellationToken);
 
         // Playback event stream
         // Order event entries by oldest first
@@ -63,15 +63,19 @@ public static class EventStreamExtensions
     /// <summary>
     /// Resolves the full event stream from all sources, organized by date.
     /// </summary>
+    /// <param name="contentPointerToEventStreamSourceAsync">A method to convert a <typeparamref name="TContentPointer"/> to a <typeparamref name="TEventStreamSource"/>.</param>
     /// <param name="contentPointerToStreamEntryAsync">A method to convert a <typeparamref name="TContentPointer"/> to a <typeparamref name="TEventStreamEntry"/>.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the ongoing operation.</param>
-    /// <param name="eventStreams">The event stream sources to resolve.</param>
-    public static async Task<IEnumerable<TEventStreamEntry>> ResolveEventStreamsAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this IEnumerable<TEventStreamSource> eventStreams, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, CancellationToken cancellationToken)
+    /// <param name="sources">The event stream sources to resolve.</param>
+    public static async Task<IEnumerable<TEventStreamEntry>> ResolveEventStreamEntriesAsync<TContentPointer, TEventStreamSource, TEventStreamEntry>(this IEnumerable<TContentPointer> sources, Func<TContentPointer, CancellationToken, Task<TEventStreamSource>> contentPointerToEventStreamSourceAsync, Func<TContentPointer, CancellationToken, Task<TEventStreamEntry>> contentPointerToStreamEntryAsync, CancellationToken cancellationToken)
         where TEventStreamSource : EventStream<TContentPointer>
         where TEventStreamEntry : EventStreamEntry<TContentPointer>
     {
+        var allEventStreamSources = await sources
+            .InParallel(x => contentPointerToEventStreamSourceAsync(x, cancellationToken));
+
         // Get all event entries across all sources
-        var allEventEntries = await eventStreams
+        var allEventEntries = await allEventStreamSources
             .Select(x => x.Entries)
             .Aggregate((x, y) =>
             {

@@ -10,7 +10,7 @@ namespace OwlCore.Nomad;
 /// <typeparam name="TEventStreamSource">The type used to specify multiple event stream sources during replay.</typeparam>
 /// <typeparam name="TEventStreamEntry">The type for the resolved event stream entries.</typeparam>
 /// <typeparam name="TListeningHandlers">The type of listener/handler instances for this event stream.</typeparam>
-public interface ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry, TListeningHandlers> : IEventStreamHandler<TEventStreamEntry>, ISources<TEventStreamSource>, IHasId
+public interface ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry, TListeningHandlers> : IEventStreamHandler<TEventStreamEntry>, ISources<TContentPointer>, IHasId
     where TEventStreamSource : EventStream<TContentPointer>
     where TEventStreamEntry : EventStreamEntry<TContentPointer>
     where TListeningHandlers : ISharedEventStreamHandler<TContentPointer, TEventStreamSource, TEventStreamEntry, TListeningHandlers>
