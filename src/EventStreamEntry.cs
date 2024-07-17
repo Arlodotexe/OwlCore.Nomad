@@ -1,19 +1,22 @@
 using System;
-using OwlCore.ComponentModel;
-
 namespace OwlCore.Nomad;
 
 /// <summary>
 /// Represents the data for a single entry in an event stream.
 /// </summary>
 /// <typeparam name="TContentPointer">An immutable pointer to data in the event stream.</typeparam>
-public record EventStreamEntry<TContentPointer> : IHasId
+public record EventStreamEntry<TContentPointer>
 {
     /// <summary>
-    /// An Id corresponding to an object this event was applied to. This Id should be unique for the object, but identical across runs and devices.
+    /// A unique identifier corresponding to an object this event was applied to. This should be unique identical across runs and devices.
     /// </summary>
-    public required string Id { get; init; }
-
+    public required string TargetId { get; init; }
+    
+    /// <summary>
+    /// A unique identifier for the event that was applied.
+    /// </summary>
+    public required string EventId { get; init; }
+    
     /// <summary>
     /// The UTC DateTime that the event occurred.
     /// </summary>
