@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
-using OwlCore.ComponentModel;
 
 namespace OwlCore.Nomad;
 
 /// <summary>
 /// Represents a specific stream of Nomad events that can be serialized.
 /// </summary>
-public record EventStream<TEventEntryContent> : IHasId
+public record EventStream<TEventEntryContent>
 {
     /// <summary>
-    /// Uniquely identifies this distributed event stream. This ID should be the same on all nodes.
+    /// Uniquely identifies the distributed object which all events in this event stream should be applied to.
     /// </summary>
-    public required string Id { get; init; }
+    public required string TargetId { get; init; }
 
     /// <summary>
     /// Display label for general use.
