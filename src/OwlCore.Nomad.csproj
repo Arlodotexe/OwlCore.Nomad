@@ -14,13 +14,19 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.4.0</Version>
+		<Version>0.5.0</Version>
 		<Product>OwlCore</Product>
 		<Description></Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.5.0 ---
+[Breaking]
+EventStreamEntry.Id was renamed toTargetId, added new EventId property.
+EventStream.Id was renamed to EventStream.TargetId.
+Removed helpers for advancing the event stream in EventStreamExtensions. Use an implementation-specific helper instead.
+
 --- 0.4.0 ---
 [Breaking]
 Event streams, like event stream entries, are now handled and resolved by TContentPointer. This allows for more flexibility in how event streams are resolved, including trust delegation. 
@@ -85,7 +91,7 @@ Initial release of OwlCore.Nomad.
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-		<PackageReference Include="OwlCore.ComponentModel" Version="0.8.0" />
+		<PackageReference Include="OwlCore.ComponentModel" Version="0.8.1" />
 		<PackageReference Include="OwlCore.Extensions" Version="0.8.0" />
 		<PackageReference Include="PolySharp" Version="1.14.1">
 		  <PrivateAssets>all</PrivateAssets>
