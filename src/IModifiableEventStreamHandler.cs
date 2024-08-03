@@ -17,5 +17,6 @@ public interface IModifiableEventStreamHandler<in TEventEntryUpdate, in TContent
     /// </summary>
     /// <param name="updateEvent">The update event data to apply and persist.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the ongoing operation.</param>
-    public Task AppendNewEntryAsync(TEventEntryUpdate updateEvent, CancellationToken cancellationToken = default);
+    /// <returns>A task containing the event stream entry that was applied from the update.</returns>
+    public Task<TEventStreamEntry> AppendNewEntryAsync(TEventEntryUpdate updateEvent, CancellationToken cancellationToken = default);
 }
