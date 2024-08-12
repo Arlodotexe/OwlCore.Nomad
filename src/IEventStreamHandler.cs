@@ -10,6 +10,16 @@ namespace OwlCore.Nomad;
 public interface IEventStreamHandler<TEventStreamEntry>
 {
     /// <summary>
+    /// A unique identifier for this event stream handler.
+    /// </summary>
+    public string EventStreamId { get; }
+
+    /// <summary>
+    /// The current position in the event stream and the furthest point that <see cref="AdvanceEventStreamAsync"/> has been successfully called.
+    /// </summary>
+    public TEventStreamEntry? EventStreamPosition { get; set; }
+    
+    /// <summary>
     /// Advance the object's event stream using the given event.
     /// </summary>
     /// <remarks>
@@ -18,7 +28,7 @@ public interface IEventStreamHandler<TEventStreamEntry>
     /// 
     /// </remarks>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public Task TryAdvanceEventStreamAsync(TEventStreamEntry streamEntry, CancellationToken cancellationToken);
+    public Task AdvanceEventStreamAsync(TEventStreamEntry streamEntry, CancellationToken cancellationToken);
 
     /// <summary>
     /// Resets the event stream to a clean slate.
@@ -26,9 +36,4 @@ public interface IEventStreamHandler<TEventStreamEntry>
     /// <param name="cancellationToken">A token that can be used to cancel the ongoing operation.</param>
     /// <returns>A <see cref="Task"/> that represents the asynchronous operation.</returns>
     public Task ResetEventStreamPositionAsync(CancellationToken cancellationToken);
-
-    /// <summary>
-    /// The current position in the event stream and the furthest point that <see cref="TryAdvanceEventStreamAsync"/> has been successfully called.
-    /// </summary>
-    public TEventStreamEntry? EventStreamPosition { get; set; }
 }

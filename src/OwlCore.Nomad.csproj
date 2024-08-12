@@ -14,13 +14,19 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.6.0</Version>
+		<Version>0.7.0</Version>
 		<Product>OwlCore</Product>
 		<Description></Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.7.0 ---
+[Breaking]
+ISharedEventStreamHandler no longer implements OwlCore.ComponentModel.IHasId.
+Added IEventStreamHandler.EventStreamId.
+Renamed IEventStreamHandler.TryAdvanceEventStreamAsync to AdvanceEventStreamAsync.
+
 --- 0.6.0 ---
 [Breaking]
 IModifiableEventStreamHandler.AppendNewEntryAsync now returns Task{TEventStreamEntry} instead of Task.
