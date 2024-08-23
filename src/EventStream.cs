@@ -18,7 +18,7 @@ public record EventStream<TEventEntryContent>
     public required string Label { get; set; }
 
     /// <summary>
-    /// A list of <typeparamref name="TEventEntryContent"/>s for this content.
+    /// A collection of <typeparamref name="TEventEntryContent"/>s for this content.
     /// </summary>
-    public HashSet<TEventEntryContent> Entries { get; init; } = new();
+    public ICollection<TEventEntryContent> Entries { get; init; } = [];
 }

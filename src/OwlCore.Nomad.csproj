@@ -14,13 +14,21 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.7.0</Version>
+		<Version>0.8.0</Version>
 		<Product>OwlCore</Product>
 		<Description></Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.8.0 ---
+[Breaking]
+IModifiableEventStreamHandler was removed / merged into IEventStreamHandler. It's assumed that if you're using an event stream handler, you need to resolve and advance the event stream to get the latest state because you may be publishing to it and can't simply read from roaming (because others may be publishing to it as well). Therefore, all event stream handlers are modifiable.  
+IEventStreamHandler.AllEventStreamEntries was added. This reference allows forwarding already resolved event stream entries in memory to child instances, speed up execution time exponentially as instances are created and modified. 
+IEventStreamHandler.LocalEventStream was added. This is a reference to the event stream itself which can be kept in memory, modified by handlers, and published when ready. If you don't have a local event stream, you shouldn't be publishing roaming data, which means you don't need to resolve event entries to retrieve roaming data and don't need IEventStreamHandler.
+IEventStreamHandler.EventStreamId was renamed to EventStreamHandlerId.
+IEventStreamHandler now takes generic IEventStreamHandler{TContentPointer, TEventStream, TEventStreamEntry} instead of IEventStreamHandler{TEventStreamEntry}.
+
 --- 0.7.0 ---
 [Breaking]
 ISharedEventStreamHandler no longer implements OwlCore.ComponentModel.IHasId.
