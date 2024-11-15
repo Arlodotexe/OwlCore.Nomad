@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>netstandard2.0;net8.0;net9.0;</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<LangVersion>12.0</LangVersion>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
@@ -14,13 +14,23 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.8.1</Version>
+		<Version>0.9.0</Version>
 		<Product>OwlCore</Product>
 		<Description>A lightweight distributed event sourcing framework.</Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.9.0 ---
+[Breaking]
+Removed ISharedEventStreamHandler and the ListeningEventStreamHandlers property on it. This pattern is not recommended for wiring update events, manage at the point of object instantiation instead.
+Removed TargetId from EventStream{T}, but not EventStreamEntry{T}. This allows creating "synthetic" event streams that combine the domains of multiple event stream handlers under a single context.
+Removed IEventStreamHandler.AllEventStreamEntries. Similar to 'ListeningEventStreamHandlers', if this is needed it should be managed at the point of object instantiation instead.
+
+[Improvements]
+Updated Microsoft.Bcl.AsyncInterfaces to 9.0.0.
+Added net8.0 and net9.0 as TargetFrameworks.
+
 --- 0.8.1 ---
 [Fixes]
 Inherited fixes from OwlCore.ComponentModel 0.9.1.
@@ -119,7 +129,7 @@ Initial release of OwlCore.Nomad.
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 		<PackageReference Include="OwlCore.ComponentModel" Version="0.9.1" />
 		<PackageReference Include="PolySharp" Version="1.14.1">
@@ -130,7 +140,7 @@ Initial release of OwlCore.Nomad.
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="logo.png">
+	  <None Include="logo.png">
 	    <Pack>True</Pack>
 	    <PackagePath>\</PackagePath>
 	  </None>

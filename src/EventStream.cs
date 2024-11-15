@@ -8,11 +8,6 @@ namespace OwlCore.Nomad;
 public record EventStream<TEventEntryContent>
 {
     /// <summary>
-    /// Uniquely identifies the distributed object which all events in this event stream should be applied to.
-    /// </summary>
-    public required string TargetId { get; init; }
-
-    /// <summary>
     /// Display label for general use.
     /// </summary>
     public required string Label { get; set; }

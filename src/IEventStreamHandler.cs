@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using OwlCore.ComponentModel;
@@ -24,12 +23,6 @@ public interface IEventStreamHandler<TContentPointer, TEventStream, TEventStream
     /// The current position in the event stream and the furthest point that <see cref="AdvanceEventStreamAsync"/> has been successfully called.
     /// </summary>
     public TEventStreamEntry? EventStreamPosition { get; set; }
-    
-    /// <summary>
-    /// A collection of all event stream entries resolved from the <see cref="ISources{TContentPointer}.Sources"/>.
-    /// </summary>
-    /// <remarks>Must contain entries that target this <see cref="EventStreamHandlerId"/>, may contain entries that don't target this instance by some application-defined criteria.</remarks>
-    public ICollection<TEventStreamEntry> AllEventStreamEntries { get; set; }
     
     /// <summary>
     /// The local event stream for this handler.
