@@ -2,7 +2,7 @@
 
 A lightweight event stream handler framework.
 
-Nomad is a p2p-friendly library that enables node operators to update and "roam" a state between many nodes with eventual consistency.
+Nomad enables distributing a modifiable application domain across a set of nodes with eventual consistency.
 
 ### Implementations
 
