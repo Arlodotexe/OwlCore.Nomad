@@ -14,13 +14,17 @@
 		<AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
 
 		<Author>Arlo Godfrey</Author>
-		<Version>0.10.0</Version>
+		<Version>0.10.1</Version>
 		<Product>OwlCore</Product>
-		<Description>A lightweight distributed event sourcing framework.</Description>
+		<Description>Lightweight event stream handler primitives.</Description>
 		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 		<PackageIcon>logo.png</PackageIcon>
 		<PackageProjectUrl>https://github.com/Arlodotexe/OwlCore.Nomad</PackageProjectUrl>
 		<PackageReleaseNotes>
+--- 0.10.1 ---
+[Improvement]
+Updated Microsoft.Bcl.AsyncInterfaces to 9.0.2.
+
 --- 0.10.0 ---
 [Breaking]
 Refactor IEventStreamHandler interface to use separate generic types for immutable and mutable pointers.
@@ -133,10 +137,10 @@ Initial release of OwlCore.Nomad.
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.2" />
 		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
 		<PackageReference Include="OwlCore.ComponentModel" Version="0.9.1" />
-		<PackageReference Include="PolySharp" Version="1.14.1">
+		<PackageReference Include="PolySharp" Version="1.15.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
