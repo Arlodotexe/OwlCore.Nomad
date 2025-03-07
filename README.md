@@ -1,6 +1,6 @@
 # OwlCore.Nomad [![Version](https://img.shields.io/nuget/v/OwlCore.Nomad.svg)](https://www.nuget.org/packages/OwlCore.Nomad)
 
-A lightweight event stream handler framework.
+Lightweight event stream handler primitives.
 
 Nomad enables distributing a modifiable application domain across a set of nodes with eventual consistency.
 
