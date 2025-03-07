@@ -9,10 +9,11 @@ namespace OwlCore.Nomad;
 /// </summary>
 /// <typeparam name="TEventStream">The type used for the local event stream.</typeparam>
 /// <typeparam name="TEventStreamEntry">The type for the resolved event stream entries.</typeparam>
-/// <typeparam name="TContentPointer">An immutable pointer to data in the event stream.</typeparam>
-public interface IEventStreamHandler<TContentPointer, TEventStream, TEventStreamEntry> : ISources<TContentPointer>
-    where TEventStream : EventStream<TContentPointer>
-    where TEventStreamEntry : EventStreamEntry<TContentPointer>
+/// <typeparam name="TImmutablePointer">An immutable pointer to data in the event stream.</typeparam>
+/// <typeparam name="TMutablePointer">A pointer to mutable data in the event stream.</typeparam>
+public interface IEventStreamHandler<TImmutablePointer, TMutablePointer, TEventStream, TEventStreamEntry> : ISources<TMutablePointer>
+    where TEventStream : EventStream<TImmutablePointer>
+    where TEventStreamEntry : EventStreamEntry<TImmutablePointer>
 {
     /// <summary>
     /// A unique identifier for this event stream handler.
